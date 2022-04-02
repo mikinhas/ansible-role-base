@@ -1,0 +1,17 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: instance
+    image: python:3-slim
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
