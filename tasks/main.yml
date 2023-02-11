@@ -21,4 +21,9 @@
     state: present
     update_cache: true
 
+- name: Start fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: started
+
 ...
