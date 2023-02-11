@@ -11,7 +11,7 @@ jobs:
         run: pip install --user yamllint
       - name: Run Yamllint
         run: yamllint -c .yamllint .
-  ansible-lint-lint:
+  ansible-lint:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
