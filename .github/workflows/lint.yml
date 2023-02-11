@@ -1,0 +1,13 @@
+---
+
+on: push
+
+jobs:
+  yamllint-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Yamllint
+        run: pip install --user yamllint
+      - name: Run Yamllint
+        run: yamllint -c .yamllint .
