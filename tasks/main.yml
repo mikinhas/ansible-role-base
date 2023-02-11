@@ -1,6 +1,18 @@
 ---
 
-# Fail2Ban
-- include_tasks: fail2ban.yml
+- name: Install Base packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - vim
+    - htop
+
+- name: Install fail2ban
+  ansible.builtin.apt:
+    name: fail2ban
+    state: present
+    update_cache: true
 
 ...
