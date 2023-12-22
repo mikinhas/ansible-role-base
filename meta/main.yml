@@ -1,0 +1,5 @@
+---
+galaxy_info:
+  role_name: ansible_role_base
+  namespace: mikinhas
+
