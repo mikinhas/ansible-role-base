@@ -2,18 +2,15 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
+  name: vagrant
+  provider:
+    virtualbox
 platforms:
   - name: instance
-    image: python:3-slim
-    pre_build_image: true
+    box: ubuntu/jammy64
+    memory: 2048
+    cpus: 2
 provisioner:
   name: ansible
 verifier:
   name: testinfra
-  directory: ../../tests
-role_name_check: 1
