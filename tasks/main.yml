@@ -22,7 +22,7 @@
     update_cache: true
 
 - name: Start fail2ban
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: fail2ban
     state: started
 
