@@ -13,3 +13,8 @@ def test_htop_is_installed(host):
 def test_fail2ban_is_installed(host):
     package = host.package("fail2ban")
     assert package.is_installed
+
+def test_fail2ban_service(host):
+    service = host.service("fail2ban")
+    assert service.is_running
+    assert service.is_enabled
