@@ -1,12 +1,14 @@
 ---
 
 - name: Update packages
+  become: true
   ansible.builtin.apt:
     autoremove: true
     update_cache: true
     upgrade: true
 
 - name: Install Base packages
+  become: true
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
@@ -16,12 +18,14 @@
     - htop
 
 - name: Install fail2ban
+  become: true
   ansible.builtin.apt:
     name: fail2ban
     state: present
     update_cache: true
 
 - name: Start fail2ban
+  become: true
   ansible.builtin.systemd_service:
     name: fail2ban
     enabled: true
