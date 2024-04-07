@@ -24,6 +24,17 @@
     state: present
     update_cache: true
 
+- name: Copy jail files to jail.d folder
+  become: true
+  ansible.builtin.template:
+    src: "jail.d/{{ item }}.j2"
+    dest: "/etc/fail2ban/jail.d/{{ item }}"
+    owner: root
+    group: root
+    mode: "644"
+  loop: "{{ base_jail_files }}"
+  notify: Restart fail2ban
+
 - name: Start fail2ban
   become: true
   ansible.builtin.systemd_service:

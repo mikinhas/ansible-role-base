@@ -1,0 +1,4 @@
+### Fail2ban
+
+base_jail_files:
+  - sshd.conf
