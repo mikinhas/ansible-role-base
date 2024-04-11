@@ -1,18 +1,24 @@
+import pytest
+
 def test_update_all_packages(host):
     check_return_false_in_changed_when_run_update_all_packages = host.ansible("apt", "upgrade=yes")["changed"]
     assert check_return_false_in_changed_when_run_update_all_packages == False
 
-def test_vim_is_installed(host):
-    package = host.package("vim")
-    assert package.is_installed
 
-def test_htop_is_installed(host):
-    package = host.package("htop")
-    assert package.is_installed
+@pytest.mark.parametrize("package_name", [
+    "fail2ban",
+    "htop",
+    "vim",
+])
+def test_if_all_packages_are_installed(host, package_name):
+    packages = host.package(package_name)
+    assert packages.is_installed
 
-def test_fail2ban_is_installed(host):
-    package = host.package("fail2ban")
-    assert package.is_installed
+
+def test_fail2ban_sshd_jail_configuration_file_exists(host):
+    sshd_jail_configuration_file = host.file("/etc/fail2ban/jail.d/sshd.conf")
+    assert sshd_jail_configuration_file.exists
+
 
 def test_fail2ban_service(host):
     service = host.service("fail2ban")
