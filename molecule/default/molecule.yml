@@ -6,7 +6,7 @@ driver:
   provider:
     libvirt
 platforms:
-  - name: instance
+  - name: ansible-role-base
     box: generic/ubuntu2204
     memory: 1024
     cpus: 1
