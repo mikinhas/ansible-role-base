@@ -7,6 +7,25 @@
     update_cache: true
     upgrade: true
 
+# This task permit to resolve a bug in ubuntu noble
+# https://github.com/fail2ban/fail2ban/issues/3487
+- name: Install python pip
+  become: true
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+  when: ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_release == "noble"
+
+
+# This task permit to resolve a bug in ubuntu noble
+# https://github.com/fail2ban/fail2ban/issues/3487
+- name: Install pip package
+  become: true
+  ansible.builtin.pip:
+    name: pyasynchat
+    extra_args: --break-system-packages
+  when: ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_release == "noble"
+
 - name: Install Base packages
   become: true
   ansible.builtin.apt:

@@ -6,7 +6,11 @@ driver:
   provider:
     libvirt
 platforms:
-  - name: ansible-role-base
+  - name: ansible-role-base-noble
+    box: bento/ubuntu-24.04
+    memory: 1024
+    cpus: 1
+  - name: ansible-role-base-jammy
     box: generic/ubuntu2204
     memory: 1024
     cpus: 1
