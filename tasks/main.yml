@@ -31,7 +31,6 @@
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
-    update_cache: true
   loop:
     - vim
     - htop
@@ -41,7 +40,6 @@
   ansible.builtin.apt:
     name: fail2ban
     state: present
-    update_cache: true
 
 - name: Copy jail files to jail.d folder
   become: true
