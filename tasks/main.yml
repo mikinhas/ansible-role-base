@@ -35,6 +35,14 @@
     - vim
     - htop
 
+- name: Install additional packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ ansible_base_additional_packages }}"
+  when: ansible_base_additional_packages is defined
+
 - name: Install fail2ban
   become: true
   ansible.builtin.apt:

@@ -8,6 +8,7 @@ def test_update_all_packages(host):
 @pytest.mark.parametrize("package_name", [
     "fail2ban",
     "htop",
+    "net-tools",
     "vim",
 ])
 def test_if_all_packages_are_installed(host, package_name):

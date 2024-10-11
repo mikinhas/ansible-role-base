@@ -4,3 +4,6 @@
   gather_facts: true
   roles:
     - ansible-role-base
+  vars:
+    ansible_base_additional_packages:
+      - net-tools
