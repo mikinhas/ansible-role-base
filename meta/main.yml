@@ -5,7 +5,7 @@ galaxy_info:
   namespace: mikinhas
   author: Michael MACHADO
   description: Base role
-  license: "license (BSD, MIT)"
+  license: "MIT"
   min_ansible_version: "2.16"
   platforms:
     - name: Ubuntu
