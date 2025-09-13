@@ -22,7 +22,8 @@
   ansible.builtin.apt:
     name: python3-pip
     state: present
-  when: ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_release == "noble"
+  when: ( ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_release == "noble" ) and
+        base_install_fail2ban is defined
 
 
 # This task permit to resolve a bug in ubuntu noble
@@ -32,12 +33,15 @@
   ansible.builtin.pip:
     name: pyasynchat
     extra_args: --break-system-packages
+  when: ( ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_release == "noble" ) and
+        base_install_fail2ban is defined
 
 - name: Install fail2ban
   become: true
   ansible.builtin.apt:
     name: fail2ban
     state: present
+  when: base_install_fail2ban is defined
 
 - name: Copy jail files to jail.d folder
   become: true
@@ -49,6 +53,7 @@
     mode: "644"
   loop: "{{ base_jail_files }}"
   notify: Restart fail2ban
+  when: base_install_fail2ban is defined
 
 - name: Start fail2ban
   become: true
@@ -56,5 +61,6 @@
     name: fail2ban
     enabled: true
     state: started
+  when: base_install_fail2ban is defined
 
 ...
