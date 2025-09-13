@@ -18,7 +18,7 @@ jobs:
       - name: Install Ansible-lint
         run: pip install --user ansible-lint
       - name: Run Ansible-lint
-        run: ansible-lint
+        run: ansible-lint .
   molecule:
     runs-on: ubuntu-22.04
     steps:
