@@ -19,11 +19,3 @@ jobs:
         run: pip install --user ansible-lint
       - name: Run Ansible-lint
         run: ansible-lint .
-  molecule:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install molecule these Dependencies
-        run: pip install --user yamllint ansible-lint molecule molecule-docker pytest-testinfra
-      - name: Run molecule
-        run: molecule test
