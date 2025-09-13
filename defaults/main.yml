@@ -1,5 +1,6 @@
 ---
 base_packages:
   - vim
+base_install_fail2ban: true
 base_jail_files:
   - sshd.conf
