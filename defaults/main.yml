@@ -1,4 +1,5 @@
-### Fail2ban
-
+---
+base_packages:
+  - vim
 base_jail_files:
   - sshd.conf
