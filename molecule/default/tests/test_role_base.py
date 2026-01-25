@@ -49,9 +49,11 @@ def test_fail2ban_sshd_jail_content(host):
     content = jail_file.content_string
 
     assert "[sshd]" in content
-    assert "enable  = true" in content
-    assert "bantime = 86400" in content
-    assert "backend = systemd" in content
+    assert "enabled  = true" in content
+    assert "bantime  = 86400" in content
+    assert "findtime = 600" in content
+    assert "maxretry = 5" in content
+    assert "backend  = systemd" in content
 
 
 def test_fail2ban_sshd_jail_is_active(host):

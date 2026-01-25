@@ -2,5 +2,8 @@
 base_packages:
   - vim
 base_install_fail2ban: true
+base_fail2ban_bantime: 86400
+base_fail2ban_findtime: 600
+base_fail2ban_maxretry: 5
 base_jail_files:
   - sshd.conf
