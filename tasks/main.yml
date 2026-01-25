@@ -6,6 +6,8 @@
     autoremove: true
     update_cache: true
     upgrade: true
+  tags:
+    - packages
 
 - name: Install packages
   become: true
@@ -14,6 +16,8 @@
     state: present
   loop: "{{ base_packages }}"
   when: base_packages is defined
+  tags:
+    - packages
 
 # This task permit to resolve a bug in ubuntu noble
 # https://github.com/fail2ban/fail2ban/issues/3487
@@ -26,7 +30,8 @@
     - ansible_facts.distribution == "Ubuntu"
     - ansible_facts.distribution_release == "noble"
     - base_install_fail2ban
-
+  tags:
+    - fail2ban
 
 # This task permit to resolve a bug in ubuntu noble
 # https://github.com/fail2ban/fail2ban/issues/3487
@@ -39,6 +44,8 @@
     - ansible_facts.distribution == "Ubuntu"
     - ansible_facts.distribution_release == "noble"
     - base_install_fail2ban
+  tags:
+    - fail2ban
 
 - name: Install fail2ban
   become: true
@@ -46,6 +53,8 @@
     name: fail2ban
     state: present
   when: base_install_fail2ban
+  tags:
+    - fail2ban
 
 - name: Copy jail files to jail.d folder
   become: true
@@ -58,6 +67,8 @@
   loop: "{{ base_jail_files }}"
   notify: Restart fail2ban
   when: base_install_fail2ban
+  tags:
+    - fail2ban
 
 - name: Start fail2ban
   become: true
@@ -66,5 +77,7 @@
     enabled: true
     state: started
   when: base_install_fail2ban
+  tags:
+    - fail2ban
 
 ...
