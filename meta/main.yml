@@ -1,10 +1,9 @@
 ---
-
 galaxy_info:
-  role_name: ansible_role_base
+  role_name: base
   namespace: mikinhas
   author: Michael MACHADO
-  description: Base role
+  description: Base system configuration role for Ubuntu servers (packages, fail2ban)
   license: "MIT"
   min_ansible_version: "2.16"
   platforms:
@@ -12,3 +11,8 @@ galaxy_info:
       versions:
         - jammy
         - noble
+  galaxy_tags:
+    - system
+    - security
+    - fail2ban
+    - ubuntu
