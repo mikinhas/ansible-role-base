@@ -5,5 +5,7 @@
   roles:
     - ansible-role-base
   vars:
-    ansible_base_additional_packages:
+    base_packages:
+      - vim
+      - htop
       - net-tools

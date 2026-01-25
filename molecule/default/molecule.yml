@@ -4,14 +4,14 @@ dependency:
 driver:
   name: vagrant
   provider:
-    libvirt
+    name: virtualbox
 platforms:
-  - name: ansible-role-base-noble
+  - name: ubuntu-noble
     box: bento/ubuntu-24.04
     memory: 1024
     cpus: 1
-  - name: ansible-role-base-jammy
-    box: generic/ubuntu2204
+  - name: ubuntu-jammy
+    box: bento/ubuntu-22.04
     memory: 1024
     cpus: 1
 provisioner:
