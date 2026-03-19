@@ -8,10 +8,6 @@ platforms:
     box: bento/ubuntu-24.04
     memory: 1024
     cpus: 1
-  - name: ubuntu-jammy
-    box: bento/ubuntu-22.04
-    memory: 1024
-    cpus: 1
 provisioner:
   name: ansible
 verifier:

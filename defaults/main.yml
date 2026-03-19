@@ -1,9 +1,53 @@
 ---
+# Base packages
 base_packages:
   - vim
-base_install_fail2ban: true
-base_fail2ban_bantime: 86400
-base_fail2ban_findtime: 600
+base_extra_packages: []
+
+# Automatic security updates
+base_unattended_upgrades: true
+base_unattended_upgrades_autoreboot: false
+base_unattended_upgrades_autoreboot_time: "02:00"
+
+# SSH hardening
+base_ssh_hardening: true
+base_ssh_port: 22
+base_ssh_permit_root_login: "yes"
+base_ssh_password_authentication: false
+base_ssh_max_auth_tries: 3
+base_ssh_kex_algorithms:
+  - curve25519-sha256
+  - curve25519-sha256@libssh.org
+  - diffie-hellman-group16-sha512
+  - diffie-hellman-group18-sha512
+base_ssh_ciphers:
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+base_ssh_macs:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+base_ssh_host_key_algorithms:
+  - ssh-ed25519
+  - rsa-sha2-512
+  - rsa-sha2-256
+
+# Fail2ban
+base_fail2ban: true
 base_fail2ban_maxretry: 5
-base_jail_files:
-  - sshd.conf
+base_fail2ban_findtime: 600
+base_fail2ban_bantime: 86400
+
+# UFW
+base_ufw: true
+base_ufw_extra_rules: []
+# - port: 80
+#   proto: tcp
+#   comment: HTTP
+# - port: 443
+#   proto: tcp
+#   comment: HTTPS
+
+# Timezone & NTP
+base_timezone: "Europe/Paris"
+...

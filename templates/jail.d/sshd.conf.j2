@@ -1,9 +1,0 @@
-[sshd]
-mode     = normal
-port     = ssh
-logpath  = %(sshd_log)s
-backend  = systemd
-enabled  = true
-bantime  = {{ base_fail2ban_bantime }}
-findtime = {{ base_fail2ban_findtime }}
-maxretry = {{ base_fail2ban_maxretry }}

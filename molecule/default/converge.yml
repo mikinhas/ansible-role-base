@@ -4,8 +4,3 @@
   gather_facts: true
   roles:
     - ansible-role-base
-  vars:
-    base_packages:
-      - vim
-      - htop
-      - net-tools
