@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+[sshd]
+enabled = true
+port = {{ base_ssh_port }}
+maxretry = {{ base_fail2ban_maxretry }}
+findtime = {{ base_fail2ban_findtime }}
+bantime = {{ base_fail2ban_bantime }}

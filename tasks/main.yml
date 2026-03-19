@@ -1,83 +1,35 @@
 ---
-
-- name: Update packages
-  become: true
-  ansible.builtin.apt:
-    autoremove: true
-    update_cache: true
-    upgrade: true
+- name: Include packages tasks
+  ansible.builtin.include_tasks: packages.yml
   tags:
     - packages
 
-- name: Install packages
-  become: true
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ base_packages }}"
-  when: base_packages is defined
+- name: Include unattended-upgrades tasks
+  ansible.builtin.include_tasks: unattended-upgrades.yml
+  when: base_unattended_upgrades
   tags:
-    - packages
+    - unattended-upgrades
 
-# This task permit to resolve a bug in ubuntu noble
-# https://github.com/fail2ban/fail2ban/issues/3487
-- name: Install python pip
-  become: true
-  ansible.builtin.apt:
-    name: python3-pip
-    state: present
-  when:
-    - ansible_facts.distribution == "Ubuntu"
-    - ansible_facts.distribution_release == "noble"
-    - base_install_fail2ban
+- name: Include SSH hardening tasks
+  ansible.builtin.include_tasks: ssh.yml
+  when: base_ssh_hardening
+  tags:
+    - ssh
+
+- name: Include fail2ban tasks
+  ansible.builtin.include_tasks: fail2ban.yml
+  when: base_fail2ban
   tags:
     - fail2ban
 
-# This task permit to resolve a bug in ubuntu noble
-# https://github.com/fail2ban/fail2ban/issues/3487
-- name: Install pip package
-  become: true
-  ansible.builtin.pip:
-    name: pyasynchat
-    extra_args: --break-system-packages
-  when:
-    - ansible_facts.distribution == "Ubuntu"
-    - ansible_facts.distribution_release == "noble"
-    - base_install_fail2ban
+- name: Include UFW tasks
+  ansible.builtin.include_tasks: ufw.yml
+  when: base_ufw
   tags:
-    - fail2ban
+    - ufw
 
-- name: Install fail2ban
-  become: true
-  ansible.builtin.apt:
-    name: fail2ban
-    state: present
-  when: base_install_fail2ban
+- name: Include timezone tasks
+  ansible.builtin.include_tasks: timezone.yml
   tags:
-    - fail2ban
-
-- name: Copy jail files to jail.d folder
-  become: true
-  ansible.builtin.template:
-    src: "jail.d/{{ item }}.j2"
-    dest: "/etc/fail2ban/jail.d/{{ item }}"
-    owner: root
-    group: root
-    mode: "644"
-  loop: "{{ base_jail_files }}"
-  notify: Restart fail2ban
-  when: base_install_fail2ban
-  tags:
-    - fail2ban
-
-- name: Start fail2ban
-  become: true
-  ansible.builtin.systemd_service:
-    name: fail2ban
-    enabled: true
-    state: started
-  when: base_install_fail2ban
-  tags:
-    - fail2ban
-
+    - timezone
 ...

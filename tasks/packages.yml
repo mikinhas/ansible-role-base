@@ -1,0 +1,14 @@
+---
+- name: Update and upgrade packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+    autoremove: true
+
+- name: Install base packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ base_packages + base_extra_packages }}"
+    state: present
+...

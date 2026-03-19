@@ -1,0 +1,18 @@
+---
+- name: Configure SSH
+  become: true
+  ansible.builtin.template:
+    src: ssh/sshd_config.j2
+    dest: /etc/ssh/sshd_config.d/99-hardening.conf
+    owner: root
+    group: root
+    mode: "0600"
+  notify: Restart sshd
+
+- name: Enable SSH service
+  become: true
+  ansible.builtin.systemd_service:
+    name: ssh
+    enabled: true
+    state: started
+...
