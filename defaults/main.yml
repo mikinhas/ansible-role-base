@@ -47,4 +47,5 @@ base_ufw_extra_rules: []
 
 # Timezone & NTP
 base_timezone: "Europe/Paris"
+base_ntp_service: systemd-timesyncd
 ...
