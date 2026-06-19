@@ -62,6 +62,8 @@ ansible-galaxy role install mikinhas.base
 | `base_fail2ban_maxretry` | `5` | Max attempts before ban |
 | `base_fail2ban_findtime` | `600` | Detection window in seconds (10min) |
 | `base_fail2ban_bantime` | `86400` | Ban duration in seconds (24h) |
+| `base_fail2ban_filters` | `[]` | Filters, each `{name, content}` → `/etc/fail2ban/filter.d/<name>.conf` |
+| `base_fail2ban_jails` | `[]` | Jails, each `{name, content}` → `/etc/fail2ban/jail.d/<name>.conf` |
 
 ### UFW
 

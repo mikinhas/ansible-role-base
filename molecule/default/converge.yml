@@ -2,5 +2,25 @@
 - name: Converge
   hosts: all
   gather_facts: true
+  vars:
+    # Exercise base_fail2ban_filters / base_fail2ban_jails.
+    # Uses /var/log/auth.log so the jail loads on the Ubuntu test box.
+    base_fail2ban_filters:
+      - name: molecule-test
+        content: |
+          [Definition]
+          failregex = ^.*authentication failure.*rhost=<HOST>.*$
+          ignoreregex =
+    base_fail2ban_jails:
+      - name: molecule-test
+        content: |
+          [molecule-test]
+          enabled  = true
+          port     = http,https
+          filter   = molecule-test
+          logpath  = /var/log/auth.log
+          maxretry = 3
+          findtime = 600
+          bantime  = 86400
   roles:
     - ansible-role-base

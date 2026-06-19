@@ -113,6 +113,40 @@ def test_fail2ban_sshd_jail_is_active(host):
     assert "sshd" in result.stdout
 
 
+# Fail2ban filters and jails (base_fail2ban_filters / base_fail2ban_jails)
+
+def test_fail2ban_filter_file_exists(host):
+    """Verify that a deployed filter file exists."""
+    filter_file = host.file("/etc/fail2ban/filter.d/molecule-test.conf")
+    assert filter_file.exists
+    assert filter_file.is_file
+    assert filter_file.user == "root"
+    assert filter_file.group == "root"
+    assert filter_file.mode == 0o644
+    assert "[Definition]" in filter_file.content_string
+
+
+def test_fail2ban_jail_file_exists(host):
+    """Verify that a deployed jail file exists."""
+    jail_file = host.file("/etc/fail2ban/jail.d/molecule-test.conf")
+    assert jail_file.exists
+    assert jail_file.is_file
+    assert jail_file.user == "root"
+    assert jail_file.group == "root"
+    assert jail_file.mode == 0o644
+
+    content = jail_file.content_string
+    assert "[molecule-test]" in content
+    assert "filter   = molecule-test" in content
+
+
+def test_fail2ban_jail_is_active(host):
+    """Verify that the deployed jail is loaded and active in fail2ban."""
+    result = host.run("sudo fail2ban-client status molecule-test")
+    assert result.rc == 0
+    assert "molecule-test" in result.stdout
+
+
 # UFW
 
 def test_ufw_is_installed(host):

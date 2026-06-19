@@ -34,6 +34,18 @@ base_fail2ban: true
 base_fail2ban_maxretry: 5
 base_fail2ban_findtime: 600
 base_fail2ban_bantime: 86400
+# Fail2ban filters and jails (e.g. Proxmox web UI)
+base_fail2ban_filters: []
+# - name: proxmox
+#   content: |
+#     [Definition]
+#     failregex = ...
+base_fail2ban_jails: []
+# - name: proxmox
+#   content: |
+#     [proxmox]
+#     enabled = true
+#     ...
 
 # UFW
 base_ufw: true
