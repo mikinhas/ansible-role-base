@@ -147,8 +147,12 @@ def test_timezone_is_set(host):
     assert result.stdout.strip() == "Europe/Paris"
 
 
-def test_timesyncd_is_running(host):
-    """Verify that systemd-timesyncd is running."""
+def test_ntp_service_is_running(host):
+    """Verify the NTP service from base_ntp_service is enabled and running.
+
+    Defaults to systemd-timesyncd (present on the Ubuntu test box). On
+    Proxmox/Debian this variable is overridden to chrony.
+    """
     service = host.service("systemd-timesyncd")
     assert service.is_running
     assert service.is_enabled

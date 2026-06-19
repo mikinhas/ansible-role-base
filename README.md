@@ -75,6 +75,7 @@ ansible-galaxy role install mikinhas.base
 | Variable | Default | Description |
 | --- | --- | --- |
 | `base_timezone` | `"Europe/Paris"` | Server timezone |
+| `base_ntp_service` | `"systemd-timesyncd"` | NTP service to enable (e.g. `chrony` on Proxmox/Debian) |
 
 ## Usage
 
