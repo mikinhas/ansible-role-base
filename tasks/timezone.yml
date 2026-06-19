@@ -7,7 +7,7 @@
 - name: Enable NTP synchronization
   become: true
   ansible.builtin.systemd_service:
-    name: systemd-timesyncd
+    name: "{{ base_ntp_service }}"
     enabled: true
     state: started
 ...
