@@ -3,8 +3,6 @@
   hosts: all
   gather_facts: true
   vars:
-    # Exercise base_fail2ban_filters / base_fail2ban_jails.
-    # Uses /var/log/auth.log so the jail loads on the Ubuntu test box.
     base_fail2ban_filters:
       - name: molecule-test
         content: |
@@ -22,5 +20,16 @@
           maxretry = 3
           findtime = 600
           bantime  = 86400
+    base_ufw_extra_rules:
+      - port: 8080
+        proto: tcp
+        comment: Port rule
+      - interface: dummy0
+        direction: in
+        comment: Interface rule
+      - port: 9090
+        proto: tcp
+        from_ip: 10.0.0.0/24
+        comment: Source-restricted rule
   roles:
     - ansible-role-base

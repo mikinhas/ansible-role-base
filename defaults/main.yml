@@ -50,12 +50,19 @@ base_fail2ban_jails: []
 # UFW
 base_ufw: true
 base_ufw_extra_rules: []
+# Port rule, i.e. `ufw allow 80/tcp`
 # - port: 80
 #   proto: tcp
 #   comment: HTTP
-# - port: 443
+# Whole-interface rule, i.e. `ufw allow in on eth1`
+# - interface: eth1
+#   direction: in
+#   comment: Trusted network
+# Source-restricted rule, i.e. `ufw allow from 10.0.0.0/24 to any port 5432`
+# - port: 5432
 #   proto: tcp
-#   comment: HTTPS
+#   from_ip: 10.0.0.0/24
+#   comment: Database from LAN
 
 # Timezone & NTP
 base_timezone: "Europe/Paris"

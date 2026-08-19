@@ -70,7 +70,39 @@ ansible-galaxy role install mikinhas.base
 | Variable | Default | Description |
 | --- | --- | --- |
 | `base_ufw` | `true` | Enable UFW firewall |
-| `base_ufw_extra_rules` | `[]` | Additional firewall rules |
+| `base_ufw_extra_rules` | `[]` | Additional firewall rules (see below) |
+
+Each entry of `base_ufw_extra_rules` accepts:
+
+| Key | Default | Description |
+| --- | --- | --- |
+| `rule` | `allow` | `allow`, `deny`, `reject` or `limit` |
+| `port` | — | Port or range to open |
+| `proto` | `tcp` when `port` is set | `tcp`, `udp`, `any`… |
+| `interface` | — | Authorise a whole interface, e.g. `eth1` |
+| `direction` | — | `in` or `out`, mandatory alongside `interface` |
+| `from_ip` | — | Source address or CIDR |
+| `to_ip` | — | Destination address or CIDR |
+| `comment` | — | Comment shown in `ufw status` |
+
+At least one of `port`, `interface`, `from_ip` or `to_ip` is required.
+
+```yaml
+base_ufw_extra_rules:
+  # ufw allow 80/tcp
+  - port: 80
+    proto: tcp
+    comment: HTTP
+  # ufw allow in on eth1
+  - interface: eth1
+    direction: in
+    comment: Trusted network
+  # ufw allow from 10.0.0.0/24 to any port 5432 proto tcp
+  - port: 5432
+    proto: tcp
+    from_ip: 10.0.0.0/24
+    comment: PostgreSQL from LAN
+```
 
 ### Timezone
 

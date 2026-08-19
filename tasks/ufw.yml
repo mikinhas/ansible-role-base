@@ -25,12 +25,18 @@
     proto: tcp
     comment: SSH
 
-- name: Allow extra ports
+- name: Apply extra rules
   become: true
   community.general.ufw:
-    rule: allow
-    port: "{{ item.port | string }}"
-    proto: "{{ item.proto | default('tcp') }}"
+    rule: "{{ item.rule | default('allow') }}"
+    direction: "{{ item.direction | default(omit) }}"
+    interface: "{{ item.interface | default(omit) }}"
+    from_ip: "{{ item.from_ip | default(omit) }}"
+    to_ip: "{{ item.to_ip | default(omit) }}"
+    port: "{{ item.port | string if item.port is defined else omit }}"
+    proto: >-
+      {{ item.proto | default('tcp') if item.port is defined
+         else item.proto | default(omit) }}
     comment: "{{ item.comment | default(omit) }}"
   loop: "{{ base_ufw_extra_rules }}"
 

@@ -173,6 +173,30 @@ def test_ufw_allows_ssh(host):
     assert "22/tcp" in result.stdout
 
 
+# UFW extra rules (base_ufw_extra_rules)
+
+def test_ufw_extra_port_rule(host):
+    """Verify that a port-based extra rule is applied."""
+    result = host.run("sudo ufw status")
+    assert "8080/tcp" in result.stdout
+
+
+def test_ufw_extra_interface_rule(host):
+    """Verify that an interface-based extra rule is applied.
+
+    Such a rule has no port, so UFW reports it as `Anywhere on <iface>`.
+    """
+    result = host.run("sudo ufw status")
+    assert "Anywhere on dummy0" in result.stdout
+
+
+def test_ufw_extra_source_restricted_rule(host):
+    """Verify that a source-restricted extra rule is applied."""
+    result = host.run("sudo ufw status")
+    assert "9090/tcp" in result.stdout
+    assert "10.0.0.0/24" in result.stdout
+
+
 # Timezone
 
 def test_timezone_is_set(host):
