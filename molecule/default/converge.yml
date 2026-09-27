@@ -31,5 +31,10 @@
         proto: tcp
         from_ip: 10.0.0.0/24
         comment: Source-restricted rule
+    base_routes:
+      eth0:
+        - to: 198.51.100.0/24
+          via: 10.0.2.2
+          metric: 100
   roles:
     - ansible-role-base

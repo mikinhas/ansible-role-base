@@ -197,6 +197,37 @@ def test_ufw_extra_source_restricted_rule(host):
     assert "10.0.0.0/24" in result.stdout
 
 
+# Static routes (base_routes)
+
+def test_routes_netplan_file_exists(host):
+    """Verify that the netplan drop-in for static routes is deployed."""
+    config = host.file("/etc/netplan/60-base-routes.yaml")
+    assert config.exists
+    assert config.is_file
+    assert config.user == "root"
+    assert config.group == "root"
+    assert config.mode == 0o600
+
+
+def test_routes_netplan_file_content(host):
+    """Verify the netplan drop-in declares the route on the default interface."""
+    result = host.run("sudo cat /etc/netplan/60-base-routes.yaml")
+    assert result.rc == 0
+    content = result.stdout
+
+    assert "ethernets:" in content
+    assert "to: 198.51.100.0/24" in content
+    assert "metric: 100" in content
+
+
+def test_route_is_active(host):
+    """Verify that the static route is present in the kernel routing table."""
+    result = host.run("ip route show 198.51.100.0/24")
+    assert result.rc == 0
+    assert "198.51.100.0/24 via" in result.stdout
+    assert "metric 100" in result.stdout
+
+
 # Timezone
 
 def test_timezone_is_set(host):

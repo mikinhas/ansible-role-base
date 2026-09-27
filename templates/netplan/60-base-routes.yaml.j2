@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+network:
+  version: 2
+  ethernets:
+{% for interface, routes in base_routes.items() %}
+    {{ interface }}:
+      routes:
+{{ routes | to_nice_yaml(indent=2, sort_keys=false) | trim | indent(8, first=true) }}
+{% endfor %}

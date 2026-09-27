@@ -1,0 +1,20 @@
+---
+- name: Configure static routes
+  become: true
+  ansible.builtin.template:
+    src: netplan/60-base-routes.yaml.j2
+    dest: /etc/netplan/60-base-routes.yaml
+    owner: root
+    group: root
+    mode: "0600"
+  when: base_routes | length > 0
+  notify: Apply netplan
+
+- name: Remove static routes configuration
+  become: true
+  ansible.builtin.file:
+    path: /etc/netplan/60-base-routes.yaml
+    state: absent
+  when: base_routes | length == 0
+  notify: Apply netplan
+...

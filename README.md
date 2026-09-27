@@ -17,6 +17,7 @@ ansible-galaxy role install mikinhas.base
 - SSH hardening (modern ciphers, key-only authentication)
 - Fail2ban with SSH jail
 - UFW firewall (deny incoming by default)
+- Static routes (netplan)
 - Timezone and NTP configuration
 
 ## Supported Platforms
@@ -104,6 +105,30 @@ base_ufw_extra_rules:
     comment: PostgreSQL from LAN
 ```
 
+### Static routes
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `base_routes` | `{}` | Static routes per interface, in netplan syntax (see below) |
+
+`base_routes` maps a netplan interface ID (usually the interface name) to a
+list of netplan [routes](https://netplan.readthedocs.io/en/stable/netplan-yaml/#properties-for-device-type-ethernets)
+(`to`, `via`, `metric`, `table`, `on-link`…). They are written to the drop-in
+`/etc/netplan/60-base-routes.yaml` and applied with `netplan apply`. Netplan
+concatenates route lists across files, so routes defined elsewhere are kept.
+When `base_routes` is empty the drop-in is removed.
+
+```yaml
+base_routes:
+  eth1:
+    # ip route add 10.10.0.0/16 via 192.168.1.254 dev eth1
+    - to: 10.10.0.0/16
+      via: 192.168.1.254
+    - to: 10.20.0.0/16
+      via: 192.168.1.254
+      metric: 100
+```
+
 ### Timezone
 
 | Variable | Default | Description |
@@ -144,7 +169,7 @@ ansible-playbook playbook.yml --tags fail2ban
 ansible-playbook playbook.yml --tags ufw
 ```
 
-Available tags: `packages`, `unattended-upgrades`, `ssh`, `fail2ban`, `ufw`, `timezone`
+Available tags: `packages`, `unattended-upgrades`, `ssh`, `fail2ban`, `ufw`, `routes`, `timezone`
 
 ## Testing
 

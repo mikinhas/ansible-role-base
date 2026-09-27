@@ -1,0 +1,23 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  tasks:
+    # The bento box ships two netplan definitions for the same NIC
+    # (`eth0` in 01-netcfg.yaml and `enp0s3` in 50-cloud-init.yaml, which is
+    # an alternative name of eth0). systemd-networkd picks the first matching
+    # file alphabetically (enp0s3), so routes attached to `eth0` are ignored.
+    # Drop the duplicate so the box behaves like a regular single-definition host.
+    - name: Remove duplicate cloud-init netplan definition
+      become: true
+      ansible.builtin.file:
+        path: /etc/netplan/50-cloud-init.yaml
+        state: absent
+      register: cloud_init_netplan
+
+    - name: Apply netplan
+      become: true
+      ansible.builtin.command: netplan apply
+      changed_when: true
+      when: cloud_init_netplan.changed
+...

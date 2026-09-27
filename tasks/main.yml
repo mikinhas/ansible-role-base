@@ -28,6 +28,11 @@
   tags:
     - ufw
 
+- name: Include static routes tasks
+  ansible.builtin.include_tasks: routes.yml
+  tags:
+    - routes
+
 - name: Include timezone tasks
   ansible.builtin.include_tasks: timezone.yml
   tags:

@@ -17,4 +17,9 @@
     name: fail2ban
     state: restarted
 
+- name: Apply netplan
+  become: true
+  ansible.builtin.command: netplan apply
+  changed_when: true
+
 ...
